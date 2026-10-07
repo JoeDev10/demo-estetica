@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Almendra Estética · Demo por Deploy</title>
+<meta name="description" content="Prototipo de web para centros de estética: servicios, turnos online por WhatsApp y panel para manejar la agenda. Hecho por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema:#f6efe6; --crema-2:#efe4d6; --arena:#e3d3bf; --tierra:#b5532f; --tierra-2:#93401f;
+    --salvia:#7d8f74; --tinta:#2d2420; --suave:#6f625a; --wa:#25d366;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--crema);color:var(--tinta);font-family:"Figtree",sans-serif;line-height:1.6;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+  a{color:inherit}
+  .demo{background:var(--tinta);color:var(--crema);font-size:13px;padding:8px 16px;text-align:center}
+  .demo a{color:#f3b79c;font-weight:600}
+  header{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:auto;padding:18px 16px}
+  .logo{font:500 26px/1 "Fraunces",serif;text-decoration:none;letter-spacing:-.01em}
+  .logo i{color:var(--tierra);font-weight:300}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-decoration:none;border:0;
+    font:600 15px "Figtree";padding:13px 22px;border-radius:999px;background:var(--tierra);color:#fff;transition:background .2s,transform .2s}
+  .btn:hover{background:var(--tierra-2);transform:translateY(-2px)}
+  .btn.linea{background:transparent;color:var(--tinta);border:1.5px solid var(--tinta)}
+  .btn.wa{background:var(--wa);color:#063b1c}
+  /* HERO */
+  .hero{max-width:1100px;margin:auto;padding:30px 16px 70px;display:grid;gap:40px;align-items:center}
+  @media(min-width:900px){.hero{grid-template-columns:1.1fr .9fr;padding-top:50px}}
+  .hero small{font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--salvia);font-size:12px}
+  h1{font:300 clamp(46px,11vw,96px)/.95 "Fraunces",serif;letter-spacing:-.03em;margin:14px 0 20px}
+  h1 em{font-style:italic;color:var(--tierra)}
+  .hero p{color:var(--suave);font-size:18px;max-width:470px}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .arco{position:relative;aspect-ratio:4/5;max-width:420px;width:100%;margin:auto}
+  .arco .forma{position:absolute;inset:0;border-radius:999px 999px 24px 24px;
+    background:radial-gradient(circle at 30% 25%,#f5cdb8,transparent 55%),radial-gradient(circle at 75% 70%,#a9b89f,transparent 60%),linear-gradient(160deg,#e8c3a6,#c98f6f);
+    animation:respira 9s ease-in-out infinite}
+  @keyframes respira{50%{border-radius:999px 999px 60px 60px;filter:saturate(1.15)}}
+  .arco .hoja{position:absolute;width:46%;bottom:-6%;left:-8%;fill:var(--salvia);opacity:.9;transform:rotate(-18deg)}
+  .sello{position:absolute;top:8%;right:-4%;width:118px;height:118px;border-radius:50%;background:var(--crema);display:grid;place-items:center;text-align:center;
+    font:500 15px/1.15 "Fraunces";box-shadow:0 12px 30px rgba(45,36,32,.15);animation:gira 18s linear infinite}
+  .sello span{animation:gira 18s linear infinite reverse;display:block}
+  @keyframes gira{to{transform:rotate(360deg)}}
+  /* SERVICIOS */
+  section{padding:70px 16px}
+  .wrap{max-width:1100px;margin:auto}
+  h2{font:300 clamp(36px,7vw,60px)/1 "Fraunces",serif;letter-spacing:-.02em;margin-bottom:10px}
+  h2 em{color:var(--tierra)}
+  .sub{color:var(--suave);margin-bottom:28px;max-width:560px}
+  .tabs{display:flex;gap:6px;background:var(--crema-2);padding:5px;border-radius:999px;width:max-content;max-width:100%;overflow-x:auto;margin-bottom:24px}
+  .tabs button{border:0;background:transparent;font:600 14px "Figtree";padding:9px 16px;border-radius:999px;cursor:pointer;color:var(--suave);white-space:nowrap}
+  .tabs button.on{background:var(--tinta);color:var(--crema)}
+  .servicios{display:grid;gap:0}
+  .serv{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center;padding:20px 0;border-bottom:1px solid var(--arena);animation:sube .5s both}
+  @keyframes sube{from{opacity:0;transform:translateY(10px)}}
+  .serv h3{font:500 22px "Fraunces"}
+  .serv p{color:var(--suave);font-size:15px;grid-column:1}
+  .serv .dato{color:var(--salvia);font-size:13px;font-weight:600;letter-spacing:.04em}
+  .serv .btn{grid-row:1/span 3;grid-column:2;padding:11px 16px;font-size:14px}
+  /* TURNOS */
+  .turnos{background:var(--tinta);color:var(--crema);border-radius:28px;margin:0 12px;padding:60px 18px}
+  .turnos .sub{color:#cdbfb3}
+  .agenda{background:#3a2f2a;border-radius:20px;padding:20px;max-width:640px}
+  .agenda h4{font:500 13px "Figtree";letter-spacing:.18em;text-transform:uppercase;color:#d9a58c;margin:4px 0 10px}
+  .dias,.horas{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .dias button,.horas button{border:1px solid #5a4a42;background:transparent;color:var(--crema);border-radius:14px;padding:10px 12px;cursor:pointer;font:500 14px "Figtree";min-width:62px}
+  .dias button b{display:block;font:500 22px "Fraunces"}
+  .dias button.on,.horas button.on{background:var(--crema);color:var(--tinta);border-color:var(--crema)}
+  .horas button:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+  .agenda select,.agenda input{width:100%;background:#2d2420;border:1px solid #5a4a42;color:var(--crema);border-radius:12px;padding:12px;font:500 15px "Figtree";margin-bottom:14px}
+  .resumen{font-size:14px;color:#cdbfb3;margin-bottom:14px;min-height:22px}
+  .agenda .btn{width:100%}
+  /* PANEL */
+  .panel{display:grid;gap:30px}
+  @media(min-width:860px){.panel{grid-template-columns:repeat(3,1fr)}}
+  .card{background:#fffaf4;border:1px solid var(--arena);border-radius:22px;padding:24px}
+  .card .num{font:300 46px/1 "Fraunces";color:var(--tierra);font-style:italic}
+  .card h3{font:500 21px "Fraunces";margin:10px 0 6px}
+  .card p{color:var(--suave);font-size:15px}
+  .chat{margin-top:14px;display:grid;gap:6px;font-size:13px}
+  .chat span{padding:8px 11px;border-radius:14px;max-width:92%}
+  .chat .in{background:#efe4d6;justify-self:start}
+  .chat .out{background:#dcf2d2;justify-self:end}
+  .final{text-align:center}
+  .final p{color:var(--suave);max-width:520px;margin:0 auto 24px}
+  footer{text-align:center;color:var(--suave);font-size:14px;padding:30px 16px;border-top:1px solid var(--arena)}
+  .flotante{position:fixed;right:16px;bottom:16px;z-index:30;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 26px rgba(37,211,102,.4)}
+  .flotante svg{width:30px;fill:#fff}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s}
+  .reveal.visto{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="demo">Prototipo de ejemplo hecho por <a href="https://joedev10.github.io/">Deploy</a> · servicios y precios ficticios · ¿Querés uno así para tu centro? <a href="#" data-wa="Hola! Vi la demo de estética y quiero una web así para mi centro">Escribime</a></div>
+<header>
+  <a class="logo" href="#">Almendra <i>estética</i></a>
+  <a class="btn" href="#turnos">Reservar turno</a>
+</header>
+
+<section class="hero">
+  <div>
+    <small>Estética · Bienestar · Cuidado de la piel</small>
+    <h1>Tu momento,<br><em>sin esperar</em> respuesta.</h1>
+    <p>Elegí el tratamiento, el día y el horario. Tu turno queda pedido en un minuto, sin idas y vueltas por mensaje.</p>
+    <div class="ctas">
+      <a class="btn" href="#turnos">Pedir turno</a>
+      <a class="btn linea" href="#servicios">Ver tratamientos</a>
+    </div>
+  </div>
+  <div class="arco reveal" aria-hidden="true">
+    <div class="forma"></div>
+    <svg class="hoja" viewBox="0 0 100 100"><path d="M10 90 C10 40 40 10 92 8 C90 60 60 90 10 90 Z"/><path d="M12 88 L80 20" stroke="#f6efe6" stroke-width="2" fill="none"/></svg>
+    <div class="sello"><span>Turnos<br><em>online</em><br>24 hs</span></div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <h2 class="reveal">Tratamientos <em>pensados</em> para vos</h2>
+    <p class="sub reveal">Cada servicio con su duración y precio. En tu web los editás vos desde el panel.</p>
+    <div class="tabs" id="tabs">
+      <button class="on" data-cat="facial">Facial</button>
+      <button data-cat="corporal">Corporal</button>
+      <button data-cat="manos">Manos y pies</button>
+      <button data-cat="depi">Depilación</button>
+    </div>
+    <div class="servicios" id="servicios-lista"></div>
+  </div>
+</section>
+
+<section class="turnos" id="turnos">
+  <div class="wrap">
+    <h2 class="reveal">Reservá en <em style="color:#f3b79c">tres toques</em></h2>
+    <p class="sub reveal">Así ve el turnero tu clienta. La reserva llega a tu WhatsApp ordenada, y la agenda se actualiza sola.</p>
+    <div class="agenda">
+      <h4>Tratamiento</h4>
+      <select id="tratamiento" aria-label="Tratamiento"></select>
+      <h4>Día</h4>
+      <div class="dias" id="dias"></div>
+      <h4>Horario</h4>
+      <div class="horas" id="horas"></div>
+      <h4>Tu nombre</h4>
+      <input id="nombre" placeholder="Ej: Carolina" autocomplete="given-name">
+      <div class="resumen" id="resumen">Elegí día y horario.</div>
+      <a class="btn wa" href="#" id="confirmar">Confirmar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="reveal">Menos tiempo <em>en el celular</em></h2>
+    <p class="sub reveal">Lo que viene con la web, además del diseño.</p>
+    <div class="panel">
+      <div class="card reveal"><div class="num">01</div><h3>Panel de administración</h3><p>Cargás tratamientos, precios, fotos y horarios disponibles vos misma, desde el celular.</p></div>
+      <div class="card reveal"><div class="num">02</div><h3>Recordatorios automáticos</h3><p>Un día antes, la clienta recibe un recordatorio por WhatsApp. Menos turnos perdidos.</p></div>
+      <div class="card reveal"><div class="num">03</div><h3>Respuestas automáticas</h3><p>Las preguntas de siempre se responden solas, incluso fuera de horario.</p>
+        <div class="chat" aria-hidden="true"><span class="in">Hola! ¿Cuánto sale la limpieza facial?</span><span class="out">¡Hola! La limpieza profunda dura 60 min. Podés reservar acá: almendra.com/turnos ✨</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="reveal">¿Te imaginás tu centro <em>así</em>?</h2>
+    <p class="reveal">Es un prototipo: lo adapto con tu nombre, tus tratamientos y tu estilo.</p>
+    <a class="btn wa" href="#" data-wa="Hola! Vi la demo de estética y quiero una web así para mi centro">Quiero mi web así</a>
+  </div>
+</section>
+
+<footer>Demo de <strong>Deploy</strong> · Páginas web y automatizaciones para negocios · <a href="https://joedev10.github.io/">joedev10.github.io</a></footer>
+
+<a class="flotante" href="#" data-wa="Hola! Estoy viendo la demo de estética de Deploy" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.3 14.3 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg>
+</a>
+
+<script>
+  const WA = "5491144091981";
+  const abrirWA = (txt) => window.open(`https://wa.me/${WA}?text=${encodeURIComponent("[DEMO] " + txt)}`, "_blank", "noopener");
+  document.addEventListener("click", (e) => {
+    const el = e.target.closest("[data-wa]");
+    if (el) { e.preventDefault(); abrirWA(el.dataset.wa); }
+  });
+
+  const servicios = {
+    facial:[["Limpieza facial profunda","Extracción, exfoliación y máscara según tu tipo de piel.",60,18500],
+            ["Peeling suave","Renueva la textura y unifica el tono.",45,22000],
+            ["Hidratación con ácido hialurónico","Para pieles secas o apagadas.",50,24000]],
+    corporal:[["Drenaje linfático","Masaje manual descontracturante y desinflamante.",60,20000],
+              ["Masaje relajante","Con aceites tibios y aromaterapia.",50,19000]],
+    manos:[["Manicura semipermanente","Esmaltado de larga duración.",60,14000],
+           ["Pedicura spa","Baño, exfoliación, hidratación y esmaltado.",70,17000]],
+    depi:[["Depilación definitiva · zona chica","Equipo de última generación.",20,12000],
+          ["Depilación definitiva · piernas","Sesión completa.",45,28000]]
+  };
+  const $ = (id) => document.getElementById(id);
+  const pesos = (n) => "$ " + n.toLocaleString("es-AR");
+
+  function pintarServicios(cat){
+    $("servicios-lista").innerHTML = servicios[cat].map((s,i) => `
+      <div class="serv" style="animation-delay:${i*70}ms">
+        <h3>${s[0]}</h3>
+        <a class="btn" href="#turnos" data-elegir="${s[0]}">Reservar</a>
+        <p>${s[1]}</p>
+        <span class="dato">${s[2]} min · ${pesos(s[3])}</span>
+      </div>`).join("");
+  }
+  $("tabs").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    $("tabs").querySelectorAll("button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); pintarServicios(b.dataset.cat);
+  });
+  pintarServicios("facial");
+
+  const todos = Object.values(servicios).flat();
+  $("tratamiento").innerHTML = todos.map(s => `<option>${s[0]}</option>`).join("");
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-elegir]"); if (b) { $("tratamiento").value = b.dataset.elegir; actualizar(); }
+  });
+
+  const nombresDia = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+  const dias = []; const d = new Date();
+  while (dias.length < 6) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0) dias.push(new Date(d)); }
+  let diaSel = null, horaSel = null;
+  $("dias").innerHTML = dias.map((x,i) => `<button data-i="${i}">${nombresDia[x.getDay()]}<b>${x.getDate()}</b></button>`).join("");
+  const horas = ["10:00","11:00","12:00","14:00","15:00","16:00","17:00","18:00"];
+  function pintarHoras(){
+    $("horas").innerHTML = horas.map((h,i) => {
+      const ocupado = diaSel !== null && (i * 7 + diaSel * 3) % 5 === 0;
+      return `<button data-h="${h}" ${ocupado ? "disabled" : ""} class="${h === horaSel ? "on" : ""}">${h}</button>`;
+    }).join("");
+  }
+  $("dias").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    $("dias").querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on");
+    diaSel = +b.dataset.i; horaSel = null; pintarHoras(); actualizar();
+  });
+  $("horas").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b || b.disabled) return;
+    horaSel = b.dataset.h; pintarHoras(); actualizar();
+  });
+  $("nombre").addEventListener("input", actualizar);
+  $("tratamiento").addEventListener("change", actualizar);
+  function actualizar(){
+    const t = $("tratamiento").value, n = $("nombre").value.trim();
+    if (diaSel === null || !horaSel) { $("resumen").textContent = "Elegí día y horario."; $("confirmar").dataset.wa = "Hola! Quiero pedir un turno."; return; }
+    const x = dias[diaSel], fecha = `${nombresDia[x.getDay()]} ${x.getDate()}/${x.getMonth()+1}`;
+    $("resumen").textContent = `${t} · ${fecha} a las ${horaSel}${n ? " · " + n : ""}`;
+    $("confirmar").dataset.wa = `Hola! Soy ${n || "una clienta"}. Quiero reservar ${t} el ${fecha} a las ${horaSel}.`;
+  }
+  pintarHoras(); actualizar();
+
+  const io = new IntersectionObserver((es) => es.forEach(x => x.isIntersecting && x.target.classList.add("visto")), {threshold:.15});
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
